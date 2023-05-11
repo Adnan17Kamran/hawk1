@@ -29,8 +29,7 @@ class User(UserMixin):
 
     def login(self):
         global double_l
-        if self.session_id is not None:
-            double_l=1
+    
         self.session_id = str(uuid4())
         session['user_id'] = self.get_id()
         session['session_id'] = self.session_id
@@ -136,14 +135,7 @@ def login():
         if user is not None and user.code == code:
             print("--- USER VALID IN DATABASE ---")
             # check if user is already logged in
-            if user.session_id and session.get('session_id') != user.session_id:
-                print('DOUBLE DEVICE LOGIN -- ATTEMPT')
-                flash('Another device is already logged in with this account.')
-                return redirect(url_for('login'))
-            if double_l==1:
-                print('DOUBLE DEVICE LOGIN -- ATTEMPT')
-                flash('Another device is already logged in with this account.')
-                return redirect(url_for('login'))
+  
 
             # login the user
             user.login()
