@@ -29,7 +29,8 @@ class User(UserMixin):
 
     def login(self):
         global double_l
-    
+        if self.session_id is not None:
+            double_l=1
         self.session_id = str(uuid4())
         session['user_id'] = self.get_id()
         session['session_id'] = self.session_id
@@ -100,6 +101,7 @@ users = {
     'Admin_4': User('Admin_4', '7017760686'),
    }
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return users.get(user_id)
@@ -135,7 +137,7 @@ def login():
         if user is not None and user.code == code:
             print("--- USER VALID IN DATABASE ---")
             # check if user is already logged in
-  
+
 
             # login the user
             user.login()
